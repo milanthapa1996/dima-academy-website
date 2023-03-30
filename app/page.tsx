@@ -6,7 +6,6 @@ import Directors from "./components/Directors";
 import Teams from "./components/Teams";
 import Testimonilas from "./components/Testimonilas";
 import Stats from "./components/Stats";
-// import BlogSection from "./components/BlogSection";
 
 export default function Home() {
   return (
@@ -25,7 +24,6 @@ export default function Home() {
       <Teams />
       <Testimonilas />
       <Stats />
-      {/* <BlogSection /> */}
     </main>
   );
 }
