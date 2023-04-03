@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Head from "next/head";
-import LoginBox from "../components/LoginBox";
-import NotesTable from "../components/NotesTable"
+import LoginBox from "@/components/LoginBox";
+import NotesTable from "@/components/NotesTable"
 
 const notes = [
   {
