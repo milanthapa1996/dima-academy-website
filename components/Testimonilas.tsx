@@ -1,37 +1,46 @@
+"use client"
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "@/firebase/config";
+import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";
 
 interface TestimonialsType {
   name: string;
   designation: string;
-  imgurl: string;
+  url: string;
+  statement: string;
 }
 
-const testimonialsList: TestimonialsType[] = [
-  {
-    name: "John Doe",
-    designation: "CEO",
-    imgurl: "https://picsum.photos/id/64/200",
-  },
-  {
-    name: "Jane Doe",
-    designation: "COO",
-    imgurl: "https://picsum.photos/id/64/200",
-  },
-  {
-    name: "Bob Smith",
-    designation: "CTO",
-    imgurl: "https://picsum.photos/id/64/200",
-  },
-  {
-    name: "Alice Lee",
-    designation: "CFO",
-    imgurl: "https://picsum.photos/id/64/200",
-  },
-];
-
 const Testimonilas = () => {
+  const [testimonialsList, setTestimonialsList] = useState<TestimonialsType[]>(
+    []
+  );
+
+  const getAllTestimonials = async () => {
+    const q = query(
+      collection(db, "testimonials"),
+      orderBy("created_at", "desc"),
+      limit(10)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setTestimonialsList((prev) => [
+        ...prev,
+        {
+          name: data.name,
+          designation: data.designation,
+          url: data.url,
+          statement: data.statement,
+        },
+      ]);
+    });
+  };
+
+  useEffect(() => {
+    getAllTestimonials();
+  }, []);
+
   return (
     <section className=" dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
@@ -51,38 +60,25 @@ const Testimonilas = () => {
               key={idx}
             >
               <blockquote className="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-                <p className="text-center">
-                  I recently got my hands on Flowbite Pro, and holy crap,{" "}
-                  {"I'm"} speechless with how easy this was to integrate within
-                  my application. Most templates are a pain, code is scattered,
-                  and near impossible to theme.
-                </p>
+                <p className="text-center">{member.statement}</p>
               </blockquote>
               <figcaption className="flex justify-center items-center space-x-3">
                 <Image
                   className="w-9 h-9 rounded-full"
-                  src="https://picsum.photos/id/64/200"
+                  src={member.url}
                   alt="profile picture"
                   height={20}
                   width={20}
                 />
                 <div className="space-y-0.5 font-medium dark:text-white text-left">
-                  <div>Bonnie Green</div>
+                  <div>{member.name}</div>
                   <div className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Developer at Open AI
+                    {member.designation}
                   </div>
                 </div>
               </figcaption>
             </figure>
           ))}
-        </div>
-        <div className="text-center">
-          <Link
-            href="/testimonials"
-            className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-          >
-            Show more...
-          </Link>
         </div>
       </div>
     </section>

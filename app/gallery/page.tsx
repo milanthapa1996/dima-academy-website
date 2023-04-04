@@ -1,40 +1,30 @@
-import React from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { db } from "@/firebase/config";
+import { query, orderBy, collection, getDocs } from "firebase/firestore";
 
 export default function GalleryPage() {
-  const galleryLists: Gallery[] = [
-    {
-      id: 1,
-      url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      title: "The First Image",
-      captured_date: "2020-01-12",
-    },
-    {
-      id: 2,
-      url: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      title: "The Second Image",
-      captured_date: "2020-01-12",
-    },
-    {
-      id: 3,
-      url: "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YnJpZGdlc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      title: "The Third Image",
-      captured_date: "2020-01-12",
-    },
-    {
-      id: 4,
-      url: "https://images.unsplash.com/photo-1679936167452-18a6119f4006?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8NnNNVmpUTFNrZVF8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-      title: "The Fourth Image",
-      captured_date: "2020-01-12",
-    },
-    {
-      id: 5,
-      url: "https://images.unsplash.com/photo-1679775912575-cfe09ff563b8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDExfDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-      title: "The Fifth Image",
-      captured_date: "2020-01-12",
-    },
-  ];
+  interface ImageObj {
+    url: string;
+  }
 
+  const [galleryLists, setGalleryLists] = useState<ImageObj[]>([]);
+  const getImages = async () => {
+    const q = query(
+      collection(db, "gallery_images"),
+      orderBy("created_at", "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setGalleryLists((prev) => [...prev, { url: data.url }]);
+    });
+  };
+
+  useEffect(() => {
+    getImages();
+  }, []);
   const shimmer = (w: number, h: number) => `
       <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
@@ -68,9 +58,9 @@ export default function GalleryPage() {
       </div>
       <main className="mx-auto max-w-[1960px] px-8 py-4">
         <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
-          {galleryLists.map((image) => (
+          {galleryLists.map((image, idx) => (
             <div
-              key={image.id}
+              key={idx}
               className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
             >
               <Image

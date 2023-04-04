@@ -37,9 +37,6 @@ export default function ImageCarousel() {
       return () => clearInterval(interval);
     }
   }, [activeIndex, images]);
-  
-  console.log(images)
-  console.log(activeIndex)
 
   return (
     <div className="relative  h-80 md:h-[100%] rounded-md">

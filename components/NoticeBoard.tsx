@@ -2,100 +2,52 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
-const notices: Notice[] = [
-  {
-    content:
-      "We have updated the schedule for the cadet training program. Please check the new schedule for details.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "We are now accepting new admissions for the officer cadet training program. Apply now to join the army.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "All candidates are required to meet the minimum physical fitness requirements in order to be eligible for the officer cadet training program.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "All candidates must undergo a medical examination before joining the officer cadet training program. Please see the details for the medical examination process.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "All candidates are required to pay the fees for the officer cadet training program on time. Late payments will not be accepted.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "We have made new study materials available for the officer cadet training program. Please see the details for the new materials.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "We have updated the requirements for the officer cadet training program. Please see the new requirements for details.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "Accommodation will be provided to all cadets during the officer cadet training program. Please see the details for the accommodation facilities.",
-    postedDate: "2022-01-12",
-  },
-  {
-    content:
-      "All candidates must pass the written exam in order to be eligible for the officer cadet training program. Please see the details for the exam process.",
-    postedDate: "2022-01-12",
-  },
-];
-
-const importantLinks: Links[] = [
-  {
-    title: "Government of Nepal",
-    url: "https://www.gov.np/",
-  },
-  {
-    title: "Nepal Army",
-    url: "https://www.nepalarmy.mil.np/",
-  },
-  {
-    title: "INGO in Nepal",
-    url: "https://www.ingo.org.np/",
-  },
-  {
-    title: "NGO Federation of Nepal",
-    url: "https://ngofederation.org/",
-  },
-  {
-    title: "International Medical Group",
-    url: "https://www.internationalmedicalgroup.com/",
-  },
-  {
-    title: "World Bank Nepal",
-    url: "https://www.worldbank.org/en/country/nepal",
-  },
-];
+import { db } from "@/firebase/config";
+import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";
 
 const NoticeBoard: React.FC = () => {
   const router = useRouter();
-  const [currentNotice, setCurrentNotice] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<string>("notices");
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (currentNotice < notices.length - 1) {
-        setCurrentNotice(currentNotice + 1);
-      } else {
-        setCurrentNotice(0);
-      }
-    }, 3000);
+  const [notices, setNotices] = useState<Notice[]>([]);
+  const [importantLinks, setImportantLinks] = useState<Links[]>([]);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [currentNotice]);
+  const getAllNotices = async () => {
+    const q = query(
+      collection(db, "notices"),
+      orderBy("postedDate", "desc"),
+      limit(10)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setNotices((prev) => [
+        ...prev,
+        { content: data.content, postedDate: data.postedDate },
+      ]);
+    });
+  };
+
+  const getAllLinks = async () => {
+    const q = query(
+      collection(db, "links"),
+      orderBy("created_at", "desc"),
+      limit(10)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setImportantLinks((prev) => [
+        ...prev,
+        { name: data.name, url: data.url },
+      ]);
+    });
+  };
+
+  useEffect(() => {
+    getAllNotices();
+    getAllLinks();
+  }, []);
 
   const handleAllLinks = () => {
     router.push(activeTab);
@@ -143,7 +95,9 @@ const NoticeBoard: React.FC = () => {
                   <span className="text-sm font-bold text-gray-700 line-clamp-1 space-x-8">
                     {notice.content}
                   </span>
-                  <span className="text-gray-400 text-xs">2022/01/23</span>
+                  <span className="text-gray-400 text-xs">
+                    {notice.postedDate}
+                  </span>
                 </div>
                 <div className="w-[20%] flex items-center justify-center">
                   <div className="flex items-center justify-center bg-gray-200 rounded-full py-1 w-14 group/edit invisible hover:bg-slate-200 group-hover/item:visible">
@@ -178,7 +132,7 @@ const NoticeBoard: React.FC = () => {
               <li className="flex group/item hover:bg-slate-100 p-4 rounded-xl">
                 <div className="flex flex-col w-[80%]">
                   <span className="text-sm font-bold text-gray-700 line-clamp-1">
-                    {link.title}
+                    {link.name}
                   </span>
                   <span className="text-xs text-gray-500 line-clamp-1">
                     {link.url}

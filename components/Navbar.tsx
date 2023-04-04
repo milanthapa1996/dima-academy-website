@@ -31,7 +31,7 @@ export default function Navbar() {
     };
   }, []);
   return (
-    <nav className="py-3 sticky top-0 left-0 z-50 bg-green-700 px-5">
+    <nav className="py-3 sticky top-0 left-0 z-[100] bg-green-700 px-5">
       <ul className="hidden lg:flex items-center">
         <div className={`mr-4 ${isSticky ? "block" : "hidden"}`}>
           <Image

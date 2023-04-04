@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link";
 import { useState } from "react"
 import React from "react";
 import { BsFacebook, BsYoutube, BsInstagram } from "react-icons/bs";
@@ -7,7 +8,7 @@ const CallToAction = () => {
   return (
     <section className="bg-gray-100 dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <a
+        <Link
           href="#"
           className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-green-400/30 rounded-full dark:bg-gray-800 dark:text-white hover:bg-green-200 dark:hover:bg-gray-700"
           role="alert"
@@ -16,7 +17,7 @@ const CallToAction = () => {
             New
           </span>{" "}
           <span className="text-sm font-medium">
-            {"Flowbite is out! See what's new"}
+            {"Test your MCQ's Skill"}
           </span>
           <svg
             className="ml-2 w-5 h-5"
@@ -30,7 +31,7 @@ const CallToAction = () => {
               clipRule="evenodd"
             ></path>
           </svg>
-        </a>
+        </Link>
         <h1 className="mb-4 text-xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-5xl dark:text-white">
           {"NEPAL'S NO. 1 CADET PREPARATION INSTITUTE"}
         </h1>
@@ -38,8 +39,8 @@ const CallToAction = () => {
           Ready to join DIMA Academy and become an Army Officer?
         </p>
         <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-          <a
-            href="#"
+          <Link
+            href="/about"
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-900 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
           >
             Learn more
@@ -55,9 +56,11 @@ const CallToAction = () => {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </a>
+          </Link>
           <a
-            href="#"
+            href="https://www.youtube.com/@dimaacademy4846"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
           >
             <svg
@@ -81,17 +84,17 @@ const CallToAction = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="mr-5 mb-5 cursor-pointer hover:text-gray-800 dark:hover:text-gray-400 lg:mb-0">
+              <span className="mr-5 mb-5 cursor-pointer hover:text-sky-600 dark:hover:text-gray-400 lg:mb-0">
                 <BsFacebook className="text-4xl md:text-6xl" />
                 <span className="text-lg font-medium">Facebook</span>
               </span>
             </a>
             <a
-              href="https://www.youtube.com/channel/UCvPVL3NEpZGpP6vE8WtT78w"
+              href="https://www.youtube.com/@dimaacademy4846"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="mr-5 mb-5 cursor-pointer hover:text-gray-800 dark:hover:text-gray-400 lg:mb-0">
+              <span className="mr-5 mb-5 cursor-pointer hover:text-red-600 dark:hover:text-gray-400 lg:mb-0">
                 <BsYoutube className="text-4xl md:text-6xl" />
                 <span className="text-lg font-medium">Youtube</span>
               </span>
@@ -101,7 +104,7 @@ const CallToAction = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="mr-5 mb-5 cursor-pointer hover:text-gray-800 dark:hover:text-gray-400 lg:mb-0">
+              <span className="mr-5 mb-5 cursor-pointer hover:text-pink-600 dark:hover:text-gray-400 lg:mb-0">
                 <BsInstagram className="text-4xl md:text-6xl" />
                 <span className="text-lg font-medium">Instagram</span>
               </span>

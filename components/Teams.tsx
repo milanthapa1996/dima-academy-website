@@ -1,92 +1,42 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import Link from "next/link";
+import { db } from "@/firebase/config";
+import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";
 
 interface TeamMember {
   name: string;
   designation: string;
-  imgurl: string;
-  socialMedia: {
-    twitter?: string;
-    facebook?: string;
-    linkedin?: string;
-    instagram?: string;
-  };
+  url: string;
 }
 
-const teamMembers: TeamMember[] = [
-  {
-    name: "John Doe",
-    designation: "CEO",
-    imgurl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    socialMedia: {
-      twitter: "https://twitter.com/johndoe",
-      linkedin: "https://www.linkedin.com/in/johndoe",
-    },
-  },
-  {
-    name: "Jane Doe",
-    designation: "COO",
-    imgurl: "https://images.unsplash.com/photo-1620000617482-821324eb9a14?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHByb2ZpbGUlMjBwaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    socialMedia: {
-      facebook: "https://www.facebook.com/janedoe",
-      linkedin: "https://www.linkedin.com/in/janedoe",
-    },
-  },
-  {
-    name: "Bob Smith",
-    designation: "CTO",
-    imgurl: "https://picsum.photos/id/64/200",
-    socialMedia: {
-      twitter: "https://twitter.com/bobsmith",
-      linkedin: "https://www.linkedin.com/in/bobsmith",
-      instagram: "https://www.instagram.com/bobsmith",
-    },
-  },
-  {
-    name: "Alice Lee",
-    designation: "CFO",
-    imgurl: "https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2ZpbGUlMjBwaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    socialMedia: {
-      facebook: "https://www.facebook.com/alicelee",
-      linkedin: "https://www.linkedin.com/in/alicelee",
-      instagram: "https://www.instagram.com/alicelee",
-    },
-  },
-  {
-    name: "Alice Lee",
-    designation: "CFO",
-    imgurl: "https://images.unsplash.com/photo-1577880216142-8549e9488dad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2ZpbGUlMjBwaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    socialMedia: {
-      facebook: "https://www.facebook.com/alicelee",
-      linkedin: "https://www.linkedin.com/in/alicelee",
-      instagram: "https://www.instagram.com/alicelee",
-    },
-  },
-  {
-    name: "Alice Lee",
-    designation: "CFO",
-    imgurl: "https://picsum.photos/id/64/200",
-    socialMedia: {
-      facebook: "https://www.facebook.com/alicelee",
-      linkedin: "https://www.linkedin.com/in/alicelee",
-      instagram: "https://www.instagram.com/alicelee",
-    },
-  },
-  {
-    name: "Alice Lee",
-    designation: "CFO",
-    imgurl: "https://picsum.photos/id/64/200",
-    socialMedia: {
-      facebook: "https://www.facebook.com/alicelee",
-      linkedin: "https://www.linkedin.com/in/alicelee",
-      instagram: "https://www.instagram.com/alicelee",
-    },
-  },
-];
-
 const Teams: React.FC = () => {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+
+  const getAllTeamMembers = async () => {
+    const q = query(
+      collection(db, "teams"),
+      orderBy("created_at", "desc"),
+      limit(10)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setTeamMembers((prev) => [
+        ...prev,
+        {
+          name: data.name,
+          designation: data.designation,
+          url: data.url,
+        },
+      ]);
+    });
+  };
+
+  useEffect(() => {
+    getAllTeamMembers();
+  }, []);
+
   return (
     <section className="dark:bg-gray-900 px-4 mt-20">
       <div className="py-8  mx-auto max-w-screen-xl lg:py-16 ">
@@ -106,7 +56,7 @@ const Teams: React.FC = () => {
               <div>
                 <Image
                   className="object-cover object-center mx-auto h-24 rounded-full shadow-md shadow-green-400 hover:scale-110 duration-500"
-                  src={team.imgurl}
+                  src={team.url}
                   alt="team image"
                   width={100}
                   height={50}
@@ -124,15 +74,6 @@ const Teams: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="text-center">
-        <Link
-          href="/testimonials"
-          className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-        >
-          Show more...
-        </Link>
       </div>
     </section>
   );

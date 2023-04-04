@@ -3,15 +3,8 @@ interface Notice {
   content: string;
 }
 
-interface Gallery {
-  id: number;
-  url: string;
-  title: string;
-  captured_date: string;
-}
-
 interface Links {
-  title: string;
+  name: string;
   url: string;
 }
 

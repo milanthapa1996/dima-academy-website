@@ -1,68 +1,72 @@
 "use client";
 import Image from "next/image";
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect } from "react";
+import { db } from "@/firebase/config";
+import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";
 
 interface DirectorObj {
   name: string;
-  imgurl: string;
+  url: string;
   designation: string;
-  opinion: string;
+  statement: string;
 }
-
-const directors: DirectorObj[] = [
-  {
-    name: "Amir Raj Adhikari",
-    imgurl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    designation: "Academic Director",
-    opinion:
-      "DIMA Academy has been creating a milestone in imparting quality education and training by being successful in making 2400 plus Nepal Army and Police Officers since its establishment. We, therefore, would like to request you(the promising youths of Nepal) to be sincere, hard-working, and helpful in the plan to be successful together.",
-  },
-  {
-    name: "Pradeep Kumar Karki (Rtd. Lt. Col.)",
-    imgurl:
-      "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    designation: "Advisor | IO Consultant",
-    opinion:
-      "The DIMA Academy has contributed to the Nepali Society and the notion of stopping the brain drain of educated youths to some extent. The highly experienced and dedicated teachers and staff of this academy are always one step ahead in helping the job seekers choose and settle their careers in the defense.",
-  },
-  {
-    name: "Kamala K.C",
-    imgurl:
-      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    designation: "Co-Founder",
-    opinion:
-      "DIMA Academy has been creating a milestone in imparting quality education and training by being successful in making 2400 plus Nepal Army and Police Officers since its establishment. We, therefore, would like to request you(the promising youths of Nepal) to be sincere, hard-working, and helpful in the plan to be successful together.",
-  },
-  {
-    name: "Gyan Hari Shrestha (Rtd.Col.)",
-    imgurl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGUlMjBwaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    designation: "Advisor | GTO Consultant",
-    opinion:
-      "It gives me immense pleasure to say a few words regarding DIMA Academy. DIMA Academy is a private pioneer institution to provide in-depth knowledge of the officer cadet selection process in the Nepali Army. I have had the privilege of teaching many interested students about interview techniques and I believe that they have benefited from my teachings. I express my sincere thanks to DIMA for this opportunity and wish for their grand success in the years to come.",
-  },
-];
 
 const Directors: React.FC = () => {
   // create a funtion to change the director on button click
-  const [director, setDirector] = useState<DirectorObj>(directors[0]);
+  const [directorsList, setDirectorsList] = useState<DirectorObj[]>([]);
+  const [director, setDirector] = useState<DirectorObj>({
+    name: "",
+    url: "",
+    designation: "",
+    statement: "",
+  });
+
+  const getAllDirectorsList = async () => {
+    const q = query(
+      collection(db, "directors"),
+      orderBy("created_at", "desc"),
+      limit(5)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setDirectorsList((prev) => [
+        ...prev,
+        {
+          name: data.name,
+          url: data.url,
+          designation: data.designation,
+          statement: data.statement,
+        },
+      ]);
+      setDirector({
+        name: data.name,
+        url: data.url,
+        designation: data.designation,
+        statement: data.statement,
+      });
+    });
+  };
+
+  useEffect(() => {
+    getAllDirectorsList();
+  }, []);
 
   const changeDirector = (e: MouseEvent<HTMLElement>) => {
     const id = e.currentTarget.id;
     if (id === "Previous") {
-      const index = directors.indexOf(director);
+      const index = directorsList.indexOf(director);
       if (index === 0) {
-        setDirector(directors[directors.length - 1]);
+        setDirector(directorsList[directorsList.length - 1]);
       } else {
-        setDirector(directors[index - 1]);
+        setDirector(directorsList[index - 1]);
       }
     } else if (id === "Next") {
-      console.log("next");
-      const index = directors.indexOf(director);
-      if (index === directors.length - 1) {
-        setDirector(directors[0]);
+      const index = directorsList.indexOf(director);
+      if (index === directorsList.length - 1) {
+        setDirector(directorsList[0]);
       } else {
-        setDirector(directors[index + 1]);
+        setDirector(directorsList[index + 1]);
       }
     }
   };
@@ -81,7 +85,7 @@ const Directors: React.FC = () => {
         <div className="lg:-mx-6 lg:flex lg:items-center transition-all duration-300">
           <Image
             className="object-cover object-center lg:mr-10 lg:w-1/2  w-full h-1/2 rounded-lg"
-            src={director.imgurl}
+            src={director.url}
             height={500}
             width={500}
             alt="Picture of the author"
@@ -96,7 +100,7 @@ const Directors: React.FC = () => {
             </h1>
 
             <p className="max-w-lg mt-6 text-gray-500 dark:text-gray-400 text-justify">
-              “ {director.opinion} ”
+              “ {director.statement} ”
             </p>
 
             <h3 className="mt-6 text-lg font-medium text-blue-500">
