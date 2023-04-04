@@ -10,7 +10,7 @@ const NoticeBoard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("notices");
 
   const [notices, setNotices] = useState<Notice[]>([]);
-  const [importantLinks, setImportantLinks] = useState<Links[]>([]);
+  const [importantLinks, setImportantLinks] = useState<ImpLinks[]>([]);
 
   const getAllNotices = async () => {
     const q = query(

@@ -3,7 +3,7 @@ interface Notice {
   content: string;
 }
 
-interface Links {
+interface ImpLinks {
   name: string;
   url: string;
 }
