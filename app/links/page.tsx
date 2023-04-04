@@ -4,29 +4,29 @@ import { BsFillCalendarCheckFill } from "react-icons/bs";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import Link from "next/link";
 
-const importantLinks: Links[] = [
+const importantLinks: ImpLinks[] = [
   {
-    title: "Government of Nepal",
+    name: "Government of Nepal",
     url: "https://www.gov.np/",
   },
   {
-    title: "Nepal Army",
+    name: "Nepal Army",
     url: "https://www.nepalarmy.mil.np/",
   },
   {
-    title: "INGO in Nepal",
+    name: "INGO in Nepal",
     url: "https://www.ingo.org.np/",
   },
   {
-    title: "NGO Federation of Nepal",
+    name: "NGO Federation of Nepal",
     url: "https://ngofederation.org/",
   },
   {
-    title: "International Medical Group",
+    name: "International Medical Group",
     url: "https://www.internationalmedicalgroup.com/",
   },
   {
-    title: "World Bank Nepal",
+    name: "World Bank Nepal",
     url: "https://www.worldbank.org/en/country/nepal",
   },
 ];
@@ -50,7 +50,7 @@ const NoticesPage = () => {
           <Link key={idx} href={link.url} target="_blank" rel="noopener noreferrer">
             <li className="mb-4 bg-white py-2 px-6 rounded-sm cursor-pointer text-sky-500 hover:text-sky-700">
               <AiOutlineInfoCircle className="inline-block mr-2 text-sky-500" />
-              {link.title}
+              {link.name}
             </li>
           </Link>
         ))}
