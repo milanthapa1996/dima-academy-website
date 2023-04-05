@@ -1,4 +1,5 @@
 interface Notice {
+  id: string;
   postedDate: string;
   content: string;
 }

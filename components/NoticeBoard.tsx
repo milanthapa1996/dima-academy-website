@@ -23,7 +23,7 @@ const NoticeBoard: React.FC = () => {
       const data = doc.data();
       setNotices((prev) => [
         ...prev,
-        { content: data.content, postedDate: data.postedDate },
+        { id:doc.id,content: data.content, postedDate: data.postedDate },
       ]);
     });
   };
