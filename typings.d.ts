@@ -10,3 +10,9 @@ interface ImpLinks {
   url: string;
 }
 
+interface Note {
+  id: string;
+  name: string;
+  fileUrl: string;
+};
+

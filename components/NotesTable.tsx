@@ -1,11 +1,6 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import { FaSearch, FaSort } from "react-icons/fa";
-
-type Note = {
-  name: string;
-  description: string;
-  fileUrl: string;
-};
 
 type Props = {
   notes: Note[];
@@ -14,12 +9,12 @@ type Props = {
 const NotesTable = ({ notes }: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [sortedColumn, setSortedColumn] = useState<"name" | "description">(
+  const [sortedColumn, setSortedColumn] = useState<"name">(
     "name"
   );
 
   const filteredData = notes.filter((item) =>
-    `${item.name} ${item.description} ${item.fileUrl}`
+    `${item.name} ${item.fileUrl}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
@@ -35,7 +30,7 @@ const NotesTable = ({ notes }: Props) => {
     }
     return 0;
   });
-  const handleSort = (column: "name" | "description") => {
+  const handleSort = (column: "name") => {
     setSortedColumn(column);
     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
   };
@@ -59,20 +54,13 @@ const NotesTable = ({ notes }: Props) => {
         <thead className="bg-gray-100">
           <tr>
             <th
-              className="p-3 text-left font-bold uppercase border border-gray-300 cursor-pointer"
+              className="p-3 text-left font-bold uppercase border border-gray-300 cursor-pointer w-[80%]"
               onClick={() => handleSort("name")}
             >
               Name
               <FaSort className="h-4 w-4 text-gray-400 inline-block ml-1" />
             </th>
-            <th
-              className="p-3 text-left font-bold uppercase border border-gray-300 cursor-pointer"
-              onClick={() => handleSort("description")}
-            >
-              Description
-              <FaSort className="h-4 w-4 text-gray-400 inline-block ml-1 " />
-            </th>
-            <th className="p-3 text-left font-bold uppercase border border-gray-300">
+            <th className="p-3 text-left font-bold uppercase border border-gray-300 w-[20%]">
               File
             </th>
           </tr>
@@ -81,14 +69,16 @@ const NotesTable = ({ notes }: Props) => {
           {filteredData.map((note, idx: number) => (
             <tr key={idx}>
               <td className="p-3 border border-gray-300">{note.name}</td>
-              <td className="p-3 border border-gray-300">{note.description}</td>
               <td className="p-3 border border-gray-300">
-                <a
+                <Link
                   href={note.fileUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  download
                   className="text-blue-500 hover:text-blue-700"
                 >
                   Download
-                </a>
+                </Link>
               </td>
             </tr>
           ))}

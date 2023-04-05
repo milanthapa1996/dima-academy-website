@@ -16,7 +16,7 @@ const LoginBox = ({ onLogin }: Props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (password === "password123") {
+    if (password === "dima2080") {
       onLogin();
     } else {
       setErrorMessage("Incorrect access code!");

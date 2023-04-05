@@ -1,29 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import LoginBox from "@/components/LoginBox";
-import NotesTable from "@/components/NotesTable"
-
-const notes = [
-  {
-    name: "Note 1",
-    description: "Lorem ipsum dolor sit amet",
-    fileUrl: "https://example.com/note1.pdf",
-  },
-  {
-    name: "Note 2",
-    description: "Consectetur adipiscing elit",
-    fileUrl: "https://example.com/note2.pdf",
-  },
-  {
-    name: "Note 3",
-    description: "Sed do eiusmod tempor incididunt",
-    fileUrl: "https://example.com/note3.pdf",
-  },
-];
+import NotesTable from "@/components/NotesTable";
+import { db } from "@/firebase/config";
+import { query, orderBy, collection, getDocs } from "firebase/firestore";
 
 const NotesPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [notes, setNotes] = useState<Note[]>([]);
+
+  const getAllNotes = async () => {
+    const q = query(collection(db, "notes"), orderBy("created_at", "desc"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setNotes((prev) => [
+        ...prev,
+        { id: doc.id, name: data.name, fileUrl: data.url },
+      ]);
+    });
+  };
+
+  useEffect(() => {
+    getAllNotes();
+  }, []);
 
   const handleLogin = () => {
     setLoggedIn(true);

@@ -23,7 +23,7 @@ const NoticeBoard: React.FC = () => {
       const data = doc.data();
       setNotices((prev) => [
         ...prev,
-        { id:doc.id,content: data.content, postedDate: data.postedDate },
+        { id: doc.id, content: data.content, postedDate: data.postedDate },
       ]);
     });
   };
@@ -39,7 +39,7 @@ const NoticeBoard: React.FC = () => {
       const data = doc.data();
       setImportantLinks((prev) => [
         ...prev,
-        { name: data.name, url: data.url },
+        { id: doc.id, name: data.name, url: data.url },
       ]);
     });
   };
@@ -89,7 +89,7 @@ const NoticeBoard: React.FC = () => {
       >
         {activeTab === "notices" &&
           notices.map((notice, index) => (
-            <Link href={"wwww.google.com"} key={index}>
+            <Link href={"/notices"} key={index}>
               <li className="flex group/item bg-white hover:bg-slate-100 p-4 rounded-xl">
                 <div className="flex flex-col w-[80%] space-y-1">
                   <span className="text-sm font-bold text-gray-700 line-clamp-1 space-x-8">
