@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div
-      className="flex flex-col justify-between font-bold px-10 py-5
+      className="flex flex-col justify-between font-bold px-8 py-5
             lg:flex-row lg:space-x-5 bg-gradient-to-r from-green-200 via-green-500 to-green-700"
     >
       <div>
