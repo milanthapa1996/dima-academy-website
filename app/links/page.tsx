@@ -1,42 +1,26 @@
 "use client";
-import { useState } from "react";
-import { BsFillCalendarCheckFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import Link from "next/link";
-
-const importantLinks: ImpLinks[] = [
-  {
-    name: "Government of Nepal",
-    url: "https://www.gov.np/",
-  },
-  {
-    name: "Nepal Army",
-    url: "https://www.nepalarmy.mil.np/",
-  },
-  {
-    name: "INGO in Nepal",
-    url: "https://www.ingo.org.np/",
-  },
-  {
-    name: "NGO Federation of Nepal",
-    url: "https://ngofederation.org/",
-  },
-  {
-    name: "International Medical Group",
-    url: "https://www.internationalmedicalgroup.com/",
-  },
-  {
-    name: "World Bank Nepal",
-    url: "https://www.worldbank.org/en/country/nepal",
-  },
-];
+import { db } from "@/firebase/config";
+import { query, orderBy, collection, getDocs } from "firebase/firestore";
 
 const NoticesPage = () => {
-  const [visibleNotices, setVisibleNotices] = useState(10);
-
-  const handleShowMoreClick = () => {
-    setVisibleNotices(visibleNotices + 10);
+  const [importantLinks, setImpLinks] = useState<ImpLinks[]>([]);
+  const getAllImpLinks = async () => {
+    const q = query(collection(db, "links"), orderBy("created_at", "desc"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      setImpLinks((prev) => [
+        ...prev,
+        { id: doc.id, name: data.name, url: data.url },
+      ]);
+    });
   };
+  useEffect(() => {
+    getAllImpLinks();
+  }, []);
   return (
     <div className="px-10 pb-8">
       <ul className="bg-white pt-4">
@@ -46,8 +30,13 @@ const NoticesPage = () => {
             Links
           </span>
         </h2>
-        {importantLinks.slice(0, visibleNotices).map((link, idx) => (
-          <Link key={idx} href={link.url} target="_blank" rel="noopener noreferrer">
+        {importantLinks.map((link) => (
+          <Link
+            key={link.id}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <li className="mb-4 bg-white py-2 px-6 rounded-sm cursor-pointer text-sky-500 hover:text-sky-700">
               <AiOutlineInfoCircle className="inline-block mr-2 text-sky-500" />
               {link.name}
@@ -55,14 +44,6 @@ const NoticesPage = () => {
           </Link>
         ))}
       </ul>
-      {visibleNotices < importantLinks.length && (
-        <button
-          className="bg-green-300 hover:bg-green-300 text-green-600 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto block"
-          onClick={handleShowMoreClick}
-        >
-          Show More
-        </button>
-      )}
     </div>
   );
 };

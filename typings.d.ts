@@ -5,6 +5,7 @@ interface Notice {
 }
 
 interface ImpLinks {
+  id: string;
   name: string;
   url: string;
 }

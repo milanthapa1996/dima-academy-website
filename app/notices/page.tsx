@@ -77,7 +77,7 @@ const NoticesPage = () => {
                   ?.postedDate
               }
             </p>
-            <p className="text-gray-600 text-xs font-normal mt-2 text-justify indent-2">
+            <p className="text-gray-600 text-xs font-normal mt-4 text-justify indent-2">
               {notices.find((notice) => notice.id === currentNoticeId)?.content}
             </p>
           </div>
