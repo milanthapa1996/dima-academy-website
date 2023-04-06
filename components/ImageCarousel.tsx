@@ -16,7 +16,7 @@ export default function ImageCarousel() {
     const q = query(
       collection(db, "slider_images"),
       orderBy("created_at", "desc"),
-      limit(5)
+      limit(10)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
