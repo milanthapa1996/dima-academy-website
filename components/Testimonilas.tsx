@@ -20,7 +20,7 @@ const Testimonilas = () => {
     const q = query(
       collection(db, "testimonials"),
       orderBy("created_at", "desc"),
-      limit(10)
+      limit(6)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
