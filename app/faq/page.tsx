@@ -19,9 +19,10 @@ const page = () => {
 
         <div className="flow-root mt-12 sm:mt-16">
           <div className="divide-y divide-gray--200 -my-9">
-            <div className="py-9">
+            
+            {/* <div className="py-9">
               <p className="text-xl font-semibold text-black flex items-center">
-                <FaLocationArrow className="text-sm mr-2"/>
+                <FaLocationArrow className="text-sm mr-2" />
                 How to create an account?
               </p>
               <p className="mt-3 text-base text-gray-600">
@@ -35,48 +36,7 @@ const page = () => {
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
                 nisi ut aliquip ex ea commodo consequat.
               </p>
-            </div>
-
-            <div className="py-9">
-              <p className="text-xl font-semibold text-black">
-                What payment method do you support?
-              </p>
-              <p className="mt-3 text-base text-gray-600">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. sed
-                do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut
-                enim ad minim veniam.
-              </p>
-            </div>
-
-            <div className="py-9">
-              <p className="text-xl font-semibold text-black">
-                What payment method do you support?
-              </p>
-              <p className="mt-3 text-base text-gray-600">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
-            </div>
-
-            <div className="py-9">
-              <p className="text-xl font-semibold text-black">
-                How do you provide support?
-              </p>
-              <p className="mt-3 text-base text-gray-600">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt{" "}
-                <a
-                  href="#"
-                  title=""
-                  className="text-blue-600 transition-all duration-200 hover:text-blue-700 focus:text-blue-700 hover:underline"
-                >
-                  support@Celebration.com
-                </a>
-              </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
