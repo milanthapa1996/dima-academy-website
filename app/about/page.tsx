@@ -1,13 +1,9 @@
 import React from "react";
-import Head from "next/head";
 
 const AboutUsPage = () => {
   return (
     <>
       <div className="bg-gray-50 min-h-screen">
-        <Head>
-          <title>About Us - DIMA Academy</title>
-        </Head>
         <div className="py-10 px-4 max-w-7xl mx-auto selection:bg-green-300 selection:text-green-900">
           <p className=" mt-4 text-4xl font-extrabold text-gray-800 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-sky-500">
             {

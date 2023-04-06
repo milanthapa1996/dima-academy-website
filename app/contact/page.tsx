@@ -1,6 +1,54 @@
-import React from "react";
+"use client";
+import { sendEmailForm } from "@/lib/sendEmail";
+import React, { useState } from "react";
 
 const page = () => {
+  const initialValues = {
+    name: "",
+    email: "",
+    subject: "",
+    phnum: "",
+    message: "",
+  };
+  const initState = { values: initialValues };
+  const [state, setState] = useState(initState);
+  const [loading, setLoading] = useState(false);
+
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prev) => {
+      return {
+        ...prev,
+        values: {
+          ...prev.values,
+          [e.target.name]: e.target.value,
+        },
+      };
+    });
+  };
+
+  const handleChangeTextarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setState((prev) => {
+      return {
+        ...prev,
+        values: {
+          ...prev.values,
+          [e.target.name]: e.target.value,
+        },
+      };
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const response = await sendEmailForm(state.values);
+    if (response) {
+      setState({ values: initialValues });
+      setLoading(false);
+      alert("Message Sent")
+    }
+  };
+
   return (
     <section className="py-10 sm:py-16">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
@@ -96,7 +144,7 @@ const page = () => {
                 Send us a message
               </h3>
 
-              <form action="#" method="POST" className="mt-14">
+              <form onSubmit={handleSubmit} className="mt-14">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-4">
                   <div>
                     <label className="text-base font-medium text-gray-900">
@@ -106,7 +154,9 @@ const page = () => {
                     <div className="mt-2.5 relative">
                       <input
                         type="text"
-                        name=""
+                        name="name"
+                        onChange={handleChangeInput}
+                        required
                         id=""
                         placeholder="Enter your full name"
                         className="block w-full px-4 py-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-green-600 caret-green-600"
@@ -122,7 +172,9 @@ const page = () => {
                     <div className="mt-2.5 relative">
                       <input
                         type="email"
-                        name=""
+                        name="email"
+                        onChange={handleChangeInput}
+                        required
                         id=""
                         placeholder="Enter your email address"
                         className="block w-full px-4 py-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-green-600 caret-green-600"
@@ -138,7 +190,8 @@ const page = () => {
                     <div className="mt-2.5 relative">
                       <input
                         type="tel"
-                        name=""
+                        name="phnum"
+                        onChange={handleChangeInput}
                         id=""
                         placeholder="Enter your phone number"
                         className="block w-full px-4 py-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-green-600 caret-green-600"
@@ -154,7 +207,9 @@ const page = () => {
                     <div className="mt-2.5 relative">
                       <input
                         type="text"
-                        name=""
+                        name="subject"
+                        onChange={handleChangeInput}
+                        required
                         id=""
                         placeholder="Enter your subject"
                         className="block w-full px-4 py-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-green-600 caret-green-600"
@@ -169,12 +224,14 @@ const page = () => {
                     </label>
                     <div className="mt-2.5 relative">
                       <textarea
-                        name=""
+                        name="message"
+                        required
+                        onChange={handleChangeTextarea}
                         id=""
                         placeholder="Your message"
+                        rows={5}
                         className="block w-full px-4 py-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md resize-y focus:outline-none focus:border-green-600 caret-green-600"
-                        rows={4}
-                      ></textarea>
+                      />
                     </div>
                   </div>
 
@@ -183,7 +240,7 @@ const page = () => {
                       type="submit"
                       className="inline-flex items-center justify-center w-full px-4 py-4 mt-2 text-base font-semibold text-white transition-all duration-200 bg-green-700 border border-transparent rounded-md focus:outline-none hover:bg-green-800 focus:bg-green-700"
                     >
-                      Send
+                      {loading ? "Sending..." : "Send"}
                     </button>
                   </div>
                 </div>

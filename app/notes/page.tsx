@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Head from "next/head";
 import LoginBox from "@/components/LoginBox";
 import NotesTable from "@/components/NotesTable";
 import { db } from "@/firebase/config";
@@ -33,9 +32,6 @@ const NotesPage = () => {
   return (
     <>
       <div className="min-h-screen">
-        <Head>
-          <title>Notes - DIMA Academy</title>
-        </Head>
         <div className="px-10">
           {loggedIn ? (
             <NotesTable notes={notes} />
