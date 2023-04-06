@@ -1,7 +1,6 @@
 import { mailOptions, transporter } from "@/lib/nodeMailer";
 
 export async function POST(request: Request, response: Response) {
-  console.log("call api");
   const { name, email, message, subject, phnum } = await request.json();
   const data = {
     name,
