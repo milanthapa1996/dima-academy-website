@@ -212,6 +212,7 @@ export default function Navbar() {
       navs: dropdownNavs,
     },
     { title: "Gallery", path: "/gallery", isDrapdown: false },
+    { title: "Notes", path: "/notes", isDrapdown: false },
     { title: "About Us", path: "/about", isDrapdown: false },
     { title: "Contact Us", path: "/contact", isDrapdown: false },
   ];
