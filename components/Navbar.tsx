@@ -81,7 +81,7 @@ const dropdownNavs = [
       {
         title: "Blog",
         desc: "Get updated with latest articles",
-        path: "/",
+        path: "https://nepalinformationhub.com",
         icon: (
           <svg
             fill="none"
@@ -103,7 +103,7 @@ const dropdownNavs = [
       {
         title: "MCQ's App",
         desc: "Read, practise and repeat.",
-        path: "/",
+        path: "https://nepalinformationhub.com/quizzes/",
         icon: (
           <svg
             fill="none"
@@ -215,6 +215,7 @@ export default function Navbar() {
     { title: "Notes", path: "/notes", isDrapdown: false },
     { title: "About Us", path: "/about", isDrapdown: false },
     { title: "Contact Us", path: "/contact", isDrapdown: false },
+    { title: "Study Resources", path: "https://nepalinformationhub.com", isDrapdown: false },
   ];
 
   useEffect(() => {
