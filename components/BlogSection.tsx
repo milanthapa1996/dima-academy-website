@@ -9,7 +9,7 @@ const BlogSection = () => {
       description:
         "Famous Personalities to contribute in the research of Universe and Geography.",
       image: "/images/geography.png",
-      link: "https://nepalinformationhub.com/geography-part-i-the-universe",
+      link: "https://nepalinformationhub.com/gk-geography-part-1-the-universe",
       category: "GK/Geography",
     },
     {

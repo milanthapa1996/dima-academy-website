@@ -205,17 +205,22 @@ export default function Navbar() {
 
   // Replace / paths with your paths
   const navigation = [
+    { title: "Home", path: "/", isDrapdown: false },
+    { title: "About Us", path: "/about", isDrapdown: false },
+    { title: "Contact Us", path: "/contact", isDrapdown: false },
+    { title: "Notes", path: "/notes", isDrapdown: false },
+    { title: "Gallery", path: "/gallery", isDrapdown: false },
     {
-      title: "Company",
+      title: "Study Resources",
+      path: "https://nepalinformationhub.com",
+      isDrapdown: false,
+    },
+    {
+      title: "More",
       path: "/",
       isDrapdown: true,
       navs: dropdownNavs,
     },
-    { title: "Gallery", path: "/gallery", isDrapdown: false },
-    { title: "Notes", path: "/notes", isDrapdown: false },
-    { title: "About Us", path: "/about", isDrapdown: false },
-    { title: "Contact Us", path: "/contact", isDrapdown: false },
-    { title: "Study Resources", path: "https://nepalinformationhub.com", isDrapdown: false },
   ];
 
   useEffect(() => {
@@ -229,7 +234,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed z-[100] bg-white w-full md:static md:text-sm md:border-none px-8 ${
+        className={`z-[100] bg-white w-full md:static md:text-sm md:border-none px-8 ${
           state ? "shadow-lg rounded-b-xl md:shadow-none" : ""
         }`}
       >
