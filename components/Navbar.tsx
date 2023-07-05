@@ -388,7 +388,7 @@ export default function Navbar() {
       </nav>
       {state ? (
         <div
-          className="z-10 fixed top-0 w-screen h-screen bg-black/20 backdrop-blur-sm md:hidden"
+          className=" fixed top-0 w-screen h-screen md:hidden"
           onClick={() => setState(false)}
         ></div>
       ) : (

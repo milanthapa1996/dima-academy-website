@@ -55,7 +55,7 @@ const NoticeBoard: React.FC = () => {
 
   return (
     <>
-      <div className="w-full px-4 pb-4 sticky top-0 z-10 bg-white flex  items-center justify-between">
+      <div className="w-full px-4 pb-4 bg-white flex  items-center justify-between">
         <div className="flex items-center justify-center space-x-2">
           <div>
             <button
